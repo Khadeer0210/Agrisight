@@ -197,10 +197,10 @@ export default function AdvisoryChat() {
               {m.image && <img src={m.image} alt="" className="rounded-xl max-h-40 mb-2 w-auto" />}
               <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-line"
                 style={m.role === 'user'
-                  ? { background: 'var(--color-turmeric)', color: '#fff', borderBottomRightRadius: 4 }
+                  ? { background: 'linear-gradient(135deg, #4F8A5B, #183528)', color: '#fff', borderBottomRightRadius: 4 }
                   : m.isError
-                    ? { background: 'var(--color-alert-soft)', border: '1px solid var(--color-alert)33', borderBottomLeftRadius: 4 }
-                    : { background: 'var(--color-canvas)', border: '1px solid var(--color-card-border)', borderBottomLeftRadius: 4 }
+                    ? { background: 'var(--color-alert-soft)', border: '1px solid rgba(192,57,43,0.20)', borderBottomLeftRadius: 4, color: 'var(--agri-deep)' }
+                    : { background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(79,138,91,0.14)', borderBottomLeftRadius: 4, color: 'var(--agri-deep)' }
                 }
                 dangerouslySetInnerHTML={{ __html: m.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
               />
@@ -255,7 +255,7 @@ export default function AdvisoryChat() {
           placeholder={t('chat.placeholder')} disabled={loading} className="input flex-1" />
         <button onClick={() => sendMessage(input)} disabled={(!input.trim() && !imageBase64) || loading || isAIUnavailable}
           className="p-3 rounded-xl shrink-0 transition-all"
-          style={{ background: 'var(--color-turmeric)', border: 'none', cursor: 'pointer', color: '#fff', opacity: (!input.trim() && !imageBase64) || loading || isAIUnavailable ? 0.5 : 1 }}>
+          style={{ background: 'linear-gradient(135deg, #4F8A5B, #183528)', border: 'none', cursor: 'pointer', color: '#fff', opacity: (!input.trim() && !imageBase64) || loading || isAIUnavailable ? 0.5 : 1 }}>
           <Send size={18} />
         </button>
       </div>

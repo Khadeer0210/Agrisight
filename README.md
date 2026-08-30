@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌾 AgriSight — Intelligent Agricultural Intelligence Platform
+🌾 AgriSight — Intelligent Agricultural Intelligence Platform
 ### *Krishi Saarthi — Edge-AI Digital Twin & Field Precision Ecosystem*
 
 [![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)

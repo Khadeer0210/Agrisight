@@ -264,12 +264,13 @@ export default function PlantHealth() {
           {/* Image Preview */}
           <div className="card overflow-hidden relative">
             <img src={preview} alt="Plant" className="w-full max-h-[350px] object-cover" />
-            <button onClick={reset} className="absolute top-3 right-3 p-2 rounded-xl"
+            {loading && <div className="animate-laser-scan" />}
+            <button onClick={reset} className="absolute top-3 right-3 p-2 rounded-xl z-30"
               style={{ background: 'rgba(255,255,255,0.9)', border: 'none', cursor: 'pointer' }}>
               <X size={16} />
             </button>
             {/* Image info overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-3"
+            <div className="absolute bottom-0 left-0 right-0 p-3 z-20"
               style={{ background: 'linear-gradient(transparent, rgba(0,0,0,0.6))' }}>
               <div className="flex items-center justify-between text-xs text-white">
                 <span className="flex items-center gap-1"><Image size={12} /> {image?.name || 'Plant Image'}</span>
@@ -277,6 +278,7 @@ export default function PlantHealth() {
               </div>
             </div>
           </div>
+
 
           {/* Analyze Button */}
           {!result && !loading && (

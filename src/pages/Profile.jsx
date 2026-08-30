@@ -161,7 +161,10 @@ export default function Profile() {
 
       {/* Hero Profile Header */}
       <div className="card p-6 sm:p-8 relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #FFFFFF 0%, rgba(46,125,79,0.08) 100%)' }}>
+        style={{
+          background: 'linear-gradient(135deg, rgba(79,138,91,0.08) 0%, rgba(255,255,255,0.78) 60%, rgba(183,215,208,0.10) 100%)',
+          borderColor: 'rgba(79,138,91,0.18)',
+        }}>
         <div className="flex flex-col sm:flex-row items-center gap-6">
           {/* Avatar Container */}
           <div className="relative">

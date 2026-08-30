@@ -191,11 +191,13 @@ export default function MyFarm() {
           <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'var(--color-canvas)', border: '1px solid var(--color-card-border)' }}>
             {tabs.map(({ id, icon: Icon, label }) => (
               <button key={id} onClick={() => setActiveTab(id)}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-sm font-medium transition-all"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-medium transition-all"
                 style={{
-                  background: activeTab === id ? 'var(--color-card)' : 'transparent',
-                  color: activeTab === id ? 'var(--color-paddy)' : 'var(--color-muted)',
-                  boxShadow: activeTab === id ? 'var(--shadow-card)' : 'none',
+                  background: activeTab === id
+                    ? 'linear-gradient(135deg, #4F8A5B, #183528)'
+                    : 'transparent',
+                  color: activeTab === id ? '#ffffff' : 'var(--color-muted)',
+                  boxShadow: activeTab === id ? '0 3px 12px rgba(79,138,91,0.25)' : 'none',
                   border: 'none', cursor: 'pointer',
                 }}>
                 <Icon size={15} /> <span className="hidden sm:inline">{label}</span>

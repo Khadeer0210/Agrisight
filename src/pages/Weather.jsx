@@ -251,9 +251,9 @@ export default function Weather() {
       </div>
 
       {loading ? (
-        <div className="card p-12 text-center">
-          <Loader2 size={32} className="animate-spin mx-auto mb-3" style={{ color: 'var(--color-paddy)' }} />
-          <p className="text-sm font-medium" style={{ color: 'var(--color-muted)' }}>Fetching weather intelligence via Ollama AI & Open-Meteo...</p>
+        <div className="card p-12 text-center" style={{ background: 'rgba(255,255,255,0.78)' }}>
+          <Loader2 size={32} className="animate-spin mx-auto mb-3" style={{ color: 'var(--agri-green)' }} />
+          <p className="text-sm font-medium" style={{ color: 'var(--color-muted)' }}>Fetching weather intelligence via Ollama AI &amp; Open-Meteo...</p>
           <p className="text-xs mt-2" style={{ color: 'var(--color-muted)' }}>📍 {locationLabel}</p>
         </div>
       ) : weatherData && curr ? (
@@ -261,8 +261,8 @@ export default function Weather() {
           {/* Main Weather Card */}
           <div className="card p-6 relative overflow-hidden"
             style={{
-              background: 'linear-gradient(135deg, rgba(47,125,79,0.08) 0%, rgba(62,124,177,0.08) 100%)',
-              borderColor: 'var(--color-card-border)'
+              background: 'linear-gradient(135deg, rgba(42,107,151,0.10) 0%, rgba(183,215,208,0.12) 50%, rgba(255,255,255,0.78) 100%)',
+              borderColor: 'rgba(79,138,91,0.15)'
             }}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
               {/* Temp & Icon */}
@@ -378,7 +378,7 @@ export default function Weather() {
           </div>
 
           {/* Sub-Navigation Tabs */}
-          <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'var(--color-canvas)', border: '1px solid var(--color-card-border)' }}>
+          <div className="flex gap-1 p-1.5 rounded-2xl" style={{ background: 'rgba(255,255,255,0.65)', border: '1px solid rgba(79,138,91,0.14)', backdropFilter: 'blur(10px)' }}>
             {[
               { id: 'overview', label: '24h Forecast' },
               { id: 'forecast', label: '7-Day Forecast' },

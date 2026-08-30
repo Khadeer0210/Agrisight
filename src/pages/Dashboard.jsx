@@ -7,10 +7,14 @@ import {
   Droplets, Thermometer, Wind, X, Sparkles, Loader2,
   CalendarDays, Ruler, Eye, MapPin, Cpu, ShieldCheck
 } from 'lucide-react'
+
 import AnimatedCounter from '../components/AnimatedCounter'
 import FarmMap from '../components/FarmMap'
 import { useAppContext } from '../context/AppContext'
 import { useAIStatus } from '../context/AIStatusContext'
+
+import gsap from 'gsap'
+import { useRef } from 'react'
 
 const statusColors = {
   healthy: { bg: 'var(--color-paddy-soft)', color: 'var(--color-paddy)', label: 'healthy' },
@@ -29,10 +33,42 @@ export default function Dashboard() {
   } = useAppContext()
   const { isAIUnavailable } = useAIStatus()
 
+  const heroRef = useRef(null)
+  const dashVideoRef = useRef(null)
   const [alerts, setAlerts] = useState([])
   const [aiSuggestion, setAiSuggestion] = useState('')
   const [aiLoading, setAiLoading] = useState(false)
   const [aiError, setAiError] = useState(false)
+
+  // Autoplay hero video safely
+  useEffect(() => {
+    if (dashVideoRef.current) {
+      dashVideoRef.current.defaultMuted = true
+      dashVideoRef.current.muted = true
+      dashVideoRef.current.play().catch(() => {})
+    }
+  }, [])
+
+  // GSAP Hero Entrance Animation
+  useEffect(() => {
+    if (!heroRef.current) return
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        '.gsap-hero-item',
+        { opacity: 0, y: 24, filter: 'blur(6px)' },
+        {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 0.8,
+          stagger: 0.12,
+          ease: 'power3.out',
+        }
+      )
+    }, heroRef)
+    return () => ctx.revert()
+  }, [])
+
 
   // Sync alerts from context
   useEffect(() => {
@@ -108,39 +144,45 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Vesper.ai Operational AI Infrastructure Hero Component */}
-      <div className="vesper-hero-card relative overflow-hidden">
-        {/* Background video overlay */}
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          src="/bg-video.mp4"
-          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0"
-        />
+      {/* ── Cinematic Hero Card ── */}
+      <div ref={heroRef} className="vesper-hero-card relative overflow-hidden" style={{ minHeight: 380 }}>
+        {/* Background video */}
+        <video
+          ref={dashVideoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0"
+        >
+          <source src="https://v1.pinimg.com/videos/iht/720p/d2/52/ef/d252efcbfa5e25e81343ef42eee0d8f2.mp4" type="video/mp4" />
+          <source src="/farm-bg.mp4" type="video/mp4" />
+          <source src="/bg-video.mp4" type="video/mp4" />
+        </video>
+        {/* Deep green agricultural overlay */}
+        <div className="absolute inset-0 z-[1]" style={{
+          background: 'linear-gradient(160deg, rgba(16,37,27,0.72) 0%, rgba(24,53,40,0.60) 60%, rgba(16,37,27,0.50) 100%)'
+        }} />
 
         <div className="relative z-10 p-8 sm:p-12 flex flex-col items-center text-center max-w-4xl mx-auto">
-          {/* Vesper Badge */}
-          <div className="badge-vesper">
-            <svg className="badge-star" viewBox="0 0 24 24">
+          {/* AgriVision Badge */}
+          <div className="badge-vesper gsap-hero-item" style={{ background: 'rgba(79,138,91,0.25)', borderColor: 'rgba(127,174,104,0.35)', color: '#7FAE68' }}>
+            <svg className="badge-star" viewBox="0 0 24 24" style={{ fill: '#7FAE68' }}>
               <path d="M12 2.6C12.55 2.6 12.88 3.15 13.08 4.7c.62 4.7 1.52 5.6 6.22 6.22 1.55.2 2.1.53 2.1 1.08s-.55.88-2.1 1.08c-4.7.62-5.6 1.52-6.22 6.22-.2 1.55-.53 2.1-1.08 2.1s-.88-.55-1.08-2.1c-.62-4.7-1.52-5.6-6.22-6.22C3.15 12.88 2.6 12.55 2.6 12s.55-.88 2.1-1.08c4.7-.62 5.6-1.52 6.22-6.22C11.12 3.15 11.45 2.6 12 2.6Z"/>
             </svg>
-            <span>Operational AI Infrastructure · {location?.display || 'Active Region'}</span>
+            <span>Intelligence for Every Acre · {location?.display || 'Active Region'}</span>
           </div>
 
-          {/* Vesper Headline */}
-          <h1 className="text-3xl sm:text-5xl font-medium tracking-tight leading-tight mb-4 text-white">
-            Train <em className="font-serif-italic text-gray-400">AI agents</em> on your farm workflows in minutes.
+          {/* Hero Headline */}
+          <h1 className="gsap-hero-item text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-tight mb-4 text-white" style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}>
+            Train <em style={{ fontStyle: 'italic', color: '#7FAE68' }}>AI agents</em> on your farm workflows in minutes.
           </h1>
 
-          {/* Vesper Lede */}
-          <p className="text-sm sm:text-base text-gray-400 max-w-xl mb-8 font-normal leading-relaxed">
+          <p className="gsap-hero-item text-sm sm:text-base max-w-xl mb-8 font-normal leading-relaxed" style={{ color: 'rgba(255,255,255,0.78)' }}>
             Deploy adaptive AI agents that learn, execute, and scale operational tasks across your agricultural fields.
           </p>
 
-          {/* Vesper Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="gsap-hero-item flex flex-wrap items-center justify-center gap-3">
             <Link to="/farm" className="btn-vesper-solid no-underline flex items-center gap-2">
               <PlusCircle size={16} /> Add Crop Workflow
             </Link>
@@ -150,59 +192,45 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Vesper Stats Footer Bar */}
+
+        {/* Stats Footer */}
         <div className="vesper-stats-bar flex-col sm:flex-row">
           <div className="flex items-center gap-3">
             <svg width="20" height="20" viewBox="0 0 24 24">
               <defs>
                 <linearGradient id="v_g1" x1="3" y1="2" x2="14" y2="22" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.38"/>
-                  <stop offset="100%" stopColor="#3a3a3a" stopOpacity="0.62"/>
+                  <stop offset="0%" stopColor="#7FAE68" stopOpacity="0.80"/>
+                  <stop offset="100%" stopColor="#4F8A5B" stopOpacity="0.60"/>
                 </linearGradient>
                 <linearGradient id="v_g2" x1="3" y1="2" x2="14" y2="22" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#3a3a3a" stopOpacity="0.38"/>
-                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.62"/>
+                  <stop offset="0%" stopColor="#4F8A5B" stopOpacity="0.60"/>
+                  <stop offset="100%" stopColor="#7FAE68" stopOpacity="0.80"/>
                 </linearGradient>
               </defs>
               <rect x="3.4" y="2.6" width="7.2" height="18.8" rx="3.6" fill="url(#v_g1)"/>
               <rect x="13.4" y="2.6" width="7.2" height="18.8" rx="3.6" fill="url(#v_g2)"/>
-              <rect x="9.2" y="10.9" width="5.6" height="2.2" rx="1.1" fill="#4a4a4a"/>
+              <rect x="9.2" y="10.9" width="5.6" height="2.2" rx="1.1" fill="rgba(255,255,255,0.4)"/>
             </svg>
             <span><strong>4.2M+</strong> workflows automated</span>
           </div>
 
           <div className="flex items-center gap-3">
             <svg width="20" height="20" viewBox="0 0 24 24">
-              <rect x="2.4" y="2.4" width="19.2" height="19.2" rx="6.2" fill="#ffffff"/>
-              <path d="M12 7.1v7.4M8.15 12.35L12 16.2l3.85-3.85" stroke="#111111" strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <rect x="2.4" y="2.4" width="19.2" height="19.2" rx="6.2" fill="rgba(127,174,104,0.80)"/>
+              <path d="M12 7.1v7.4M8.15 12.35L12 16.2l3.85-3.85" stroke="#10251B" strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
             </svg>
             <span><strong>92%</strong> reduction in manual operations</span>
           </div>
 
           <div className="flex items-center gap-3">
-            <svg className="stat-icon-wide" width="38" height="21" viewBox="0 0 40 22">
-              <circle cx="10.2" cy="11" r="9.2" fill="#2b2b2b"/>
-              <ellipse cx="10.2" cy="12.1" rx="4.15" ry="3.7" fill="#f4f4f4"/>
-              <path d="M7.5 7.5L9 9.5M13 7.5L11.5 9.5" stroke="#2b2b2b" strokeWidth="1.2" strokeLinecap="round"/>
-              <circle cx="9" cy="11" r="0.7" fill="#1a1a1a"/>
-              <circle cx="11.4" cy="11" r="0.7" fill="#1a1a1a"/>
-
-              <circle cx="20.2" cy="11" r="9.2" fill="#ffffff"/>
-              <circle cx="18" cy="10" r="1.7" fill="#111111"/>
-              <circle cx="22.4" cy="10" r="1.7" fill="#111111"/>
-              <ellipse cx="20.2" cy="12.2" rx="1.2" ry="0.8" fill="#111111"/>
-              <path d="M18 14c1 1.2 3.4 1.2 4.4 0" stroke="#111111" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
-
-              <circle cx="30.2" cy="11" r="9.2" fill="#f26b1d"/>
-              <text x="30.2" y="15.1" fontFamily="'Inter', sans-serif" fontWeight="700" fontSize="12.5" fill="#ffffff" textAnchor="middle">e</text>
-            </svg>
+            <Cpu size={20} style={{ color: '#7FAE68' }} />
             <span><strong>180+</strong> operational teams onboarded</span>
           </div>
         </div>
       </div>
 
       {/* AI Crop Suggestion Strip */}
-      <div className="card p-5 sm:p-6 transition-all duration-300" style={{ borderLeft: '4px solid var(--color-turmeric)', boxShadow: '0 4px 20px rgba(226,167,46,0.08)' }}>
+      <div className="card p-5 sm:p-6 transition-all duration-300" style={{ borderLeft: '4px solid var(--color-turmeric)', boxShadow: '0 4px 20px rgba(193,125,60,0.08)' }}>
         <div className="flex items-start justify-between gap-4 mb-3">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'var(--color-turmeric-soft)' }}>
@@ -258,20 +286,20 @@ export default function Dashboard() {
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { icon: Sprout, label: t('dashboard.your_farms'), value: stats.farms, color: 'var(--color-paddy)', bg: 'var(--color-paddy-soft)' },
+          { icon: Sprout, label: t('dashboard.your_farms'), value: stats.farms, color: 'var(--agri-green)', bg: 'var(--color-paddy-soft)' },
           { icon: Wheat, label: t('dashboard.total_crops'), value: stats.crops, color: 'var(--color-turmeric-dark)', bg: 'var(--color-turmeric-soft)' },
-          { icon: HeartPulse, label: t('dashboard.healthy'), value: stats.healthy, color: 'var(--color-paddy)', bg: 'var(--color-paddy-soft)' },
+          { icon: HeartPulse, label: t('dashboard.healthy'), value: stats.healthy, color: 'var(--agri-green)', bg: 'var(--color-paddy-soft)' },
           { icon: AlertTriangle, label: t('dashboard.alerts'), value: stats.alerts, color: 'var(--color-alert)', bg: 'var(--color-alert-soft)' },
         ].map(({ icon: Icon, label, value, color, bg }, i) => (
-          <div key={i} className="card p-4 sm:p-5 flex items-center gap-3.5 transition-all duration-300 hover:-translate-y-1">
-            <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 shadow-sm" style={{ background: bg }}>
-              <Icon size={22} style={{ color }} />
+          <div key={i} className="card p-4 sm:p-6 flex items-center gap-4 transition-all duration-300 hover:-translate-y-1">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0" style={{ background: bg }}>
+              <Icon size={24} style={{ color }} />
             </div>
             <div>
-              <div className="text-2xl sm:text-3xl font-extrabold tracking-tight" style={{ fontFamily: 'var(--font-display)', color }}>
+              <div className="text-2xl sm:text-3xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-display)', color }}>
                 <AnimatedCounter target={value} />
               </div>
-              <div className="text-xs font-semibold" style={{ color: 'var(--color-muted)' }}>{label}</div>
+              <div className="text-xs font-semibold mt-0.5" style={{ color: 'var(--color-muted)' }}>{label}</div>
             </div>
           </div>
         ))}
@@ -280,7 +308,7 @@ export default function Dashboard() {
       {/* Weather + Market Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Weather Mini Card */}
-        <div className="card p-5 sm:p-6" style={{ background: 'linear-gradient(135deg, var(--color-rain-soft) 0%, var(--color-card) 100%)' }}>
+        <div className="card p-5 sm:p-6" style={{ background: 'linear-gradient(135deg, rgba(42,107,151,0.08) 0%, rgba(255,255,255,0.72) 100%)' }}>
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-bold m-0 flex items-center gap-2" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-ink)' }}>
               <CloudSun size={18} style={{ color: 'var(--color-rain)' }} /> {t('dashboard.weather')}

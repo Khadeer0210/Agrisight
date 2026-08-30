@@ -57,17 +57,25 @@ export default function Impact() {
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
       {/* Header Banner */}
-      <div className="card p-8 text-center relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, rgba(46,125,79,0.08) 0%, #FFFFFF 60%, rgba(42,107,151,0.08) 100%)' }}>
-        <div className="eyebrow-label mx-auto mb-2">
-          <Leaf size={13} /> Sustainability & SDG Alignment
+      <div className="relative overflow-hidden rounded-3xl p-8 text-center"
+        style={{
+          background: 'linear-gradient(135deg, #10251B 0%, #183528 60%, #0D1E14 100%)',
+          border: '1px solid rgba(127,174,104,0.20)',
+          boxShadow: '0 20px 60px rgba(16,37,27,0.18)',
+        }}>
+        {/* Glow orb */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] rounded-full blur-[80px] opacity-[0.18]" style={{ background: '#4F8A5B' }} />
+        <div className="relative z-10">
+          <div className="eyebrow-label mx-auto mb-2" style={{ color: '#7FAE68' }}>
+            <Leaf size={13} /> Sustainability &amp; SDG Alignment
+          </div>
+          <h1 className="text-3xl sm:text-4xl mb-3 text-white" style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}>
+            {t('impact.title')} <em style={{ fontStyle: 'italic', color: '#7FAE68' }}>Footprint</em> 🌱
+          </h1>
+          <p className="text-sm sm:text-base max-w-2xl mx-auto leading-relaxed" style={{ color: 'rgba(255,255,255,0.70)' }}>
+            {t('impact.subtitle')} — {hasRealData ? 'calculated from your real farm data' : 'register farms to see personalized metrics'}.
+          </p>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold mb-3" style={{ fontFamily: 'var(--font-display)', color: 'var(--ink)' }}>
-          {t('impact.title')} <span className="text-gold-italic">Footprint</span> 🌱
-        </h1>
-        <p className="text-sm sm:text-base max-w-2xl mx-auto leading-relaxed font-semibold" style={{ color: 'var(--color-muted)' }}>
-          {t('impact.subtitle')} — {hasRealData ? 'calculated from your real farm data' : 'register farms to see personalized metrics'}.
-        </p>
       </div>
 
       {/* Impact Stats Grid */}
